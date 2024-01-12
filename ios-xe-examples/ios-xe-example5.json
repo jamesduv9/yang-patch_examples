@@ -1,0 +1,41 @@
+{
+    "ietf-yang-patch:yang-patch": {
+        "patch-id": "Example 5, Create two standard access-lists, and delete the first one",
+        "comment": "Displaying the order of operations in yang-patch, executes from top to bottom, while also being atomic. 'create' two standard ACLs, then 'delete' the first.",
+        "edit": [
+            {
+                "edit-id": "Add the first ACL",
+                "operation": "create",
+                "target": "/Cisco-IOS-XE-acl:standard=EX_5_1",
+                "value": {
+                    "Cisco-IOS-XE-acl:standard": {
+                        "name": "EX_5_1"
+                    }
+                }
+            },
+            {
+                "edit-id": "Add the second ACL",
+                "operation": "create",
+                "target": "/Cisco-IOS-XE-acl:standard=EX_5_2",
+                "value": {
+                    "Cisco-IOS-XE-acl:standard": {
+                        "name": "EX_5_2",
+                        "access-list-seq-rule": {
+                            "sequence": "5",
+                            "permit": {
+                                "std-ace": {
+                                    "any": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "edit-id": "Delete the first ACL",
+                "operation": "delete",
+                "target": "/Cisco-IOS-XE-acl:standard=EX_5_1"
+            }
+        ]
+    }
+}

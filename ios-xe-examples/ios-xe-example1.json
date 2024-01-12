@@ -1,0 +1,31 @@
+{
+  "ietf-yang-patch:yang-patch": {
+    "patch-id": "Example 1, adding an interface",
+    "comment": "A simple example with a single edit using a JSON payload, creates a new subinterface G1.101 and assigns it an address.",
+    "edit": [
+      {
+        "edit-id": "interface",
+        "operation": "merge",
+        "target": "/interface/GigabitEthernet=1.101",
+        "value": {
+          "Cisco-IOS-XE-native:GigabitEthernet": {
+            "name": "1.101",
+            "encapsulation": {
+              "dot1Q": {
+                "vlan-id": "101"
+              }
+            },
+            "ip": {
+              "address": {
+                "primary": {
+                  "address": "101.1.1.1",
+                  "mask": "255.255.255.252"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

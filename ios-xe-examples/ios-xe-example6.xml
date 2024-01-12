@@ -1,0 +1,37 @@
+<yang-patch xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-patch">
+        <patch-id>Example 6, Create two standard access-lists, and delete the first one</patch-id>
+        <comment>Displaying the order of operations in yang-patch, executes from top to bottom, while also being atomic. 'create' two standard ACLs, then 'delete' the first.</comment>
+        <edit>
+          <edit-id>Add the first ACL</edit-id>
+          <operation>create</operation>
+          <target>/Cisco-IOS-XE-acl:standard=EX_5_1</target>
+          <value>
+            <standard xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+                <name>EX_5_1</name>
+            </standard>
+          </value>
+        </edit>
+        <edit>
+          <edit-id>Add the second ACL</edit-id>
+          <operation>create</operation>
+          <target>/Cisco-IOS-XE-acl:standard=EX_5_2</target>
+          <value>
+            <standard xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+                <name>EX_5_2</name>
+                <access-list-seq-rule>
+                  <sequence>5</sequence>
+                  <permit>
+                    <std-ace>
+                      <any/>
+                    </std-ace>
+                  </permit>
+                </access-list-seq-rule>
+            </standard>
+          </value>
+        </edit>
+        <edit>
+          <edit-id>Delete the first ACL</edit-id>
+          <operation>delete</operation>
+          <target>/Cisco-IOS-XE-acl:standard=EX_5_1</target>
+        </edit>
+</yang-patch>
