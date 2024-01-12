@@ -5,9 +5,9 @@ YANG patch is defined in RFC 8072 (https://datatracker.ietf.org/doc/html/rfc8072
 This was written during my studies for the Cisco DevNet Expert certification. While it's not on the blueprint, the topics here will help with understanding vanilla RESTCONF (RFC 8040), which is on the blueprint.
 
 
-## Using the examples.py CLI in this repo
+## Using the example_cli.py CLI in this repo
 
-I've added a simple CLI application `examples.py` that will let you run the iOS-XE or NX-OS examples on your own devices. 
+I've added a simple CLI application `example_cli.py` that will let you run the iOS-XE or NX-OS examples on your own devices. 
 
 ### Prerequisites
 - Python 3.6 or higher
@@ -140,4 +140,8 @@ A couple of notes on each of these,
 4. **delete** - Does what it says, deletes an object, of the 4 mentioned here, this is the only one that doesn't require a value.
 
 YANG Patch also includes the move and insert operations, however, I was unable to get either working on iOS-XE. I believe this is because iOS relies on values within the data resource to specify its order, and doesn't rely on the lists to be ordered. For example, prefix-list has a required key of "no" to specify which order the prefix-list is interpreted. Using move or insert to place a new prefix list line before or after a specific place in a prefix-list doesn't make sense.
-```
+
+## Ghost configs
+
+Sometimes when using a create operation, the router will return with a `"error-message": "object already exists` when it does not actually exist on the router. I've had this happen a few times without much indication as to why. Merge seems to be the answer. 
+

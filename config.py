@@ -44,6 +44,11 @@ def get_examples(device_ip: str) -> tuple[dict]:
               "restconf_path": f"https://{device_ip}/restconf/data/Cisco-IOS-XE-native:native",
               "example_description": "Complex operation with JSON payload, 'create' bgp asn 65000, 'merge' a new neighbor, 'create' a prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values"
               },
+        "8": {"file_": "./ios-xe-examples/ios-xe-example8.xml",
+              "data_type": "xml",
+              "restconf_path": f"https://{device_ip}/restconf/data/Cisco-IOS-XE-native:native",
+              "example_description": "Complex operation with XML payload, 'create' bgp asn 65000, 'merge' a new neighbor, 'create' a prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values"
+              },
     }
     nxos_examples = {
     }
