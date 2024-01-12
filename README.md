@@ -2,7 +2,52 @@
 
 YANG patch is defined in RFC 8072 (https://datatracker.ietf.org/doc/html/rfc8072), although it's a powerful feature, finding any documentation or examples of this on modern systems proved very difficult. This repo will provide a handful of useful examples for iOS XE and NX-OS.
 
-This was written during my studies for the Cisco DevNet certification. While it's not on the blueprint, the topics here will help with understanding vanilla RESTCONF (RFC 8040), which is on the blueprint.
+This was written during my studies for the Cisco DevNet Expert certification. While it's not on the blueprint, the topics here will help with understanding vanilla RESTCONF (RFC 8040), which is on the blueprint.
+
+
+## Using the examples.py CLI in this repo
+
+I've added a simple CLI application `examples.py` that will let you run the iOS-XE or NX-OS examples on your own devices. 
+
+### Prerequisites
+- Python 3.6 or higher
+- Pip (Python package installer)
+- Virtual environment (recommended)
+
+### Setting Up the Environment
+1. Clone the repository:
+   ```
+   git clone https://github.com/jamesduv9/yang-patch_examples.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd yang-patch_examples
+   ```
+3. Create a virtual environment (optional but recommended):
+   ```
+   python -m venv venv
+   ```
+4. Activate the virtual environment:
+   - On Windows:
+     ```
+     venv\Scripts\activate
+     ```
+   - On Unix or MacOS:
+     ```
+     source venv/bin/activate
+     ```
+5. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+### Interacting with the CLI
+
+The CLI provides built-in help, to assist with running the examples.
+
+```
+add snippet of CLI
+```
 
 ## Benefits of YANG Patch over normal RESTCONF operations
 
@@ -83,59 +128,16 @@ YANG-Patch supports two different values for headers, `application/yang-patch+js
 
 **Caveat** - The Ansible module - `ansible.netcommon.restconf_config` does not support the yang-patch headers or provide a way to change them when writing your tasks. If you plan to use yang-patch alongside Ansible, I would recommend using the `ansible.builtin.uri` module instead.
 
-## Using the examples.py CLI in this repo
-
-I've added a simple CLI application `examples.py` that will let you run the iOS-XE or NX-OS examples on your own devices. 
-
-### Prerequisites
-- Python 3.6 or higher
-- Pip (Python package installer)
-- Virtual environment (recommended)
-
-### Setting Up the Environment
-1. Clone the repository:
-   ```
-   git clone https://github.com/jamesduv9/yang-patch_examples.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd yang-patch_examples
-   ```
-3. Create a virtual environment (optional but recommended):
-   ```
-   python -m venv venv
-   ```
-4. Activate the virtual environment:
-   - On Windows:
-     ```
-     venv\Scripts\activate
-     ```
-   - On Unix or MacOS:
-     ```
-     source venv/bin/activate
-     ```
-5. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-### Interacting with the CLI
-
-The CLI provides built-in help, to assist with running the examples.
-
-```
-add snippet of CLI
-```
 
 ## Operations
 
 The main operations displayed in these examples are create, merge, replace, delete
 
 A couple of notes on each of these,
-**1. create** - Creates a new data resource, if the resource already exists it will throw an error - ex.`"error-message": "object already exists: /ios:native/ios:router/ios-bgp:bgp[ios-bgp:id='65000']"`
-**2. merge** - Can create new data resources, or add data into an existing one. Probably the one you will use the most.
-**3. replace** - Completely replaces a data resource with your provided value, this is dangerous, can see this used in IaC deployment where you have your desired state completely defined.
-**4. delete** - Does what it says, deletes an object, of the 4 mentioned here, this is the only one that doesn't require a value.
+1. **create** - Creates a new data resource, if the resource already exists it will throw an error - ex.`"error-message": "object already exists: /ios:native/ios:router/ios-bgp:bgp[ios-bgp:id='65000']"`
+2. **merge** - Can create new data resources, or add data into an existing one. Probably the one you will use the most.
+3. **replace** - Completely replaces a data resource with your provided value, this is dangerous, can see this used in IaC deployment where you have your desired state completely defined.
+4. **delete** - Does what it says, deletes an object, of the 4 mentioned here, this is the only one that doesn't require a value.
 
 YANG Patch also includes the move and insert operations, however, I was unable to get either working on iOS-XE. I believe this is because iOS relies on values within the data resource to specify its order, and doesn't rely on the lists to be ordered. For example, prefix-list has a required key of "no" to specify which order the prefix-list is interpreted. Using move or insert to place a new prefix list line before or after a specific place in a prefix-list doesn't make sense.
 ```
