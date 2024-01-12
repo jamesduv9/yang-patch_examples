@@ -1,6 +1,8 @@
 # YANG-PATCH examples
 
-YANG patch is described in RFC 8072 (https://datatracker.ietf.org/doc/html/rfc8072), although it's a powerful feature, finding any documentation or examples of this on modern systems proved very difficult. This repo will provide a handful of examples for ios xe and nxos.
+YANG patch is defined in RFC 8072 (https://datatracker.ietf.org/doc/html/rfc8072), although it's a powerful feature, finding any documentation or examples of this on modern systems proved very difficult. This repo will provide a handful of useful examples for iOS XE and NX-OS.
+
+This was written during my studies for the Cisco DevNet certification. While it's not on the blueprint, the topics here will help with understanding vanilla RESTCONF (RFC 8040), which is on the blueprint.
 
 ## Benefits of YANG Patch over normal RESTCONF operations
 
@@ -24,17 +26,17 @@ YANG Patch has some features that are not possible with the
       same YANG Patch request.
 ```
 
-Essentially this makes RESTCONF operations act more like NETCONF operations. They become atomic (all or nothing), and have multiple different types of operations that aren't driven by the HTTP method used. For example, I can "create" an ACL, "merge" a prefix list, and "delete" an ip route all from the same YANG Patch operation. If any of those operations fail, the configuration will roll back to it's previous state. 
+Essentially this makes RESTCONF operations act more like NETCONF operations. They become atomic (all or nothing), and have multiple different types of operations that aren't driven by the HTTP method used. For example, I can "create" an ACL, "merge" a prefix list, and "delete" an IP route all from the same YANG Patch operation. If any of those operations fail, the configuration will roll back to its previous state.
 
-From personal experience with both RESTCONF and YANG Patch, the error messages provided by YANG Patch are also much more informative than vanilla RESTCONF. 
+From personal experience with both RESTCONF and YANG Patch, the error messages provided by YANG Patch are also much more informative than vanilla RESTCONF.
 
 ## Drawbacks of YANG Patch
 
-While YANG-Patch provides more functionality, it has a drawback that should be noted
+While YANG-Patch provides more functionality, it has a drawback that should be noted.
 
-Quoted from the RFC
+Quoted from the RFC:
 ```
- Each edit within a YANG Patch MUST identify exactly one data resource
+Each edit within a YANG Patch MUST identify exactly one data resource
    instance.  If an edit represents more than one resource instance,
    then the request MUST NOT be processed and a "400 Bad Request" error
    response MUST be sent by the server.
@@ -42,17 +44,48 @@ Quoted from the RFC
 
 Said a bit differently, the target of your edits must be an element in a list, it cannot be the entire list, or a container.
 
-For example, if configuring an access-list, the following target would be considered invalid - `<target>/Cisco-IOS-XE-acl:standard</target>` as it specifies an entire list, not specifying an element. To correct this, you would pass it the key of the element you want to edit, such as - `<target>/Cisco-IOS-XE-acl:standard=EX_5_2</target>`, where EX_5_2 is the key value of name, as specified by the yang model.
+For example, if you want to target the datastore of `/Cisco-IOS-XE-acl:standard` you must specify exactly one element within that yang list to modify by using its key. You cannot add multiple in a single edit.
+
+```
+Invalid edit:
+        <edit>
+          <edit-id>Add the second ACL</edit-id>
+          <operation>create</operation>
+          <target>/Cisco-IOS-XE-acl:standard</target>
+          <value>
+            <standard xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+                <name>EX_5_2</name>
+            </standard>
+            <standard xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+                <name>EX_5_3</name>
+            </standard>
+          </value>
+        </edit>
+
+Valid edit:
+        <edit>
+          <edit-id>Add the second ACL</edit-id>
+          <operation>create</operation>
+          <target>/Cisco-IOS-XE-acl:standard</target>
+          <value>
+            <standard xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+                <name>EX_5_2</name>
+            </standard>
+          </value>
+        </edit>
+```
+
+
 
 ## Headers
 
-YANG-Patch supports two different values for headers, `application/yang-patch+json` or `application/yang-patch+xml`. One of these values must be used for both the `Content-type` and `Accept` headers. The Content-type header specifies the value of the data you are sending to the RESTCONF server, while the Accept header specifies the data your client expects to receieve back from the RESTCONF server. The CLI script only uses json for the accept header to make the responses predictable.
+YANG-Patch supports two different values for headers, `application/yang-patch+json` or `application/yang-patch+xml`. One of these values must be used for both the `Content-type` and `Accept` headers. The Content-type header specifies the value of the data you are sending to the RESTCONF server, while the Accept header specifies the data your client expects to receive back from the RESTCONF server. The CLI script only uses JSON for the accept header to make the responses predictable.
 
-**Caveat** - The ansible module - `anisble.netcommon.restconf_config` does not support the yang-patch headers or provide a way to change them when writing your tasks. If you plan to use yang-patch alongside ansible, I would recommend using the `ansible.builtin.uri` module instead.
+**Caveat** - The Ansible module - `ansible.netcommon.restconf_config` does not support the yang-patch headers or provide a way to change them when writing your tasks. If you plan to use yang-patch alongside Ansible, I would recommend using the `ansible.builtin.uri` module instead.
 
-## Using the examples.py cli in this repo
+## Using the examples.py CLI in this repo
 
-I've added a simple CLI application `examples.py` that will let you run the ios-xe or nxos examples on your own devices. 
+I've added a simple CLI application `examples.py` that will let you run the iOS-XE or NX-OS examples on your own devices. 
 
 ### Prerequisites
 - Python 3.6 or higher
@@ -88,8 +121,21 @@ I've added a simple CLI application `examples.py` that will let you run the ios-
 
 ### Interacting with the CLI
 
-The cli provides built-in help, to assist with running the examples.
+The CLI provides built-in help, to assist with running the examples.
 
 ```
-add snippet of cli
+add snippet of CLI
+```
+
+## Operations
+
+The main operations displayed in these examples are create, merge, replace, delete
+
+A couple of notes on each of these,
+**1. create** - Creates a new data resource, if the resource already exists it will throw an error - ex.`"error-message": "object already exists: /ios:native/ios:router/ios-bgp:bgp[ios-bgp:id='65000']"`
+**2. merge** - Can create new data resources, or add data into an existing one. Probably the one you will use the most.
+**3. replace** - Completely replaces a data resource with your provided value, this is dangerous, can see this used in IaC deployment where you have your desired state completely defined.
+**4. delete** - Does what it says, deletes an object, of the 4 mentioned here, this is the only one that doesn't require a value.
+
+YANG Patch also includes the move and insert operations, however, I was unable to get either working on iOS-XE. I believe this is because iOS relies on values within the data resource to specify its order, and doesn't rely on the lists to be ordered. For example, prefix-list has a required key of "no" to specify which order the prefix-list is interpreted. Using move or insert to place a new prefix list line before or after a specific place in a prefix-list doesn't make sense.
 ```
