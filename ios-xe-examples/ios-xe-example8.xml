@@ -48,7 +48,7 @@
                 <ipv4-unicast>
                     <neighbor>
                         <id>10.1.1.1</id>
-                        <activate/>
+                        <activate />
                         <prefix-list>
                             <inout>in</inout>
                             <prefix-list-name>REAL_PL</prefix-list-name>

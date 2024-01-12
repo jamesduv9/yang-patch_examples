@@ -1,14 +1,15 @@
 <yang-patch xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-patch">
-        <patch-id>Example 2, adding an interface</patch-id>
-        <comment>A simple example with a single edit using an XML payload, creates a new subinterface G1.101 and assigns it an address.</comment>
-        <edit>
-            <edit-id>interface</edit-id>
-            <operation>merge</operation>
-            <target>/interface/GigabitEthernet=1.101</target>
-            <value>
-                <GigabitEthernet xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-                    <name>1.101</name>
-                </GigabitEthernet>
-            </value>
-        </edit>
+    <patch-id>Example 2, adding an interface</patch-id>
+    <comment>A simple example with a single edit using an XML payload, creates a new subinterface
+        G1.101 and assigns it an address.</comment>
+    <edit>
+        <edit-id>interface</edit-id>
+        <operation>merge</operation>
+        <target>/interface/GigabitEthernet=1.101</target>
+        <value>
+            <GigabitEthernet xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                <name>1.101</name>
+            </GigabitEthernet>
+        </value>
+    </edit>
 </yang-patch>

@@ -1,47 +1,48 @@
 <yang-patch xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-patch">
-        <patch-id>Example 3, adding subintf, ospf pid, and network statement</patch-id>
-        <comment>A slightly more complex operation, 'merge' a subinterface, ospf pid, and enables ospf with a network statement</comment>
-        <edit>
-          <edit-id>Create OSPF pid, add network statement</edit-id>
-          <operation>merge</operation>
-          <target>/router/router-ospf/ospf/process-id=1</target>
-          <value>
-            <process-id xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
-                <id>1</id>
-                <network>
-                <ip>101.1.1.1</ip>
-                <wildcard>0.0.0.0</wildcard>
-                <area>0</area>
-                </network>
-            </process-id>
-          </value>
-        </edit>
-        <edit>
-            <edit-id>Add sub interface, set ospf mtu-ignore, assign IP Address</edit-id>
-            <operation>merge</operation>
-            <target>/interface/GigabitEthernet=1.101</target>
-            <value>
-                <GigabitEthernet xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-                    <name>1.101</name>
-                    <encapsulation>
-                      <dot1Q>
-                        <vlan-id>101</vlan-id>
-                      </dot1Q>
-                    </encapsulation>
-                    <ip>
-                      <router-ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
-                        <ospf>
-                          <mtu-ignore>true</mtu-ignore>
-                        </ospf>
-                      </router-ospf>
-                      <address>
-                        <primary>
-                          <address>101.1.1.1</address>
-                          <mask>255.255.255.252</mask>
-                        </primary>
-                      </address>
-                    </ip>
-                </GigabitEthernet>
-            </value>
-        </edit>
+  <patch-id>Example 3, adding subintf, ospf pid, and network statement</patch-id>
+  <comment>A slightly more complex operation, 'merge' a subinterface, ospf pid, and enables ospf
+    with a network statement</comment>
+  <edit>
+    <edit-id>Create OSPF pid, add network statement</edit-id>
+    <operation>merge</operation>
+    <target>/router/router-ospf/ospf/process-id=1</target>
+    <value>
+      <process-id xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <id>1</id>
+        <network>
+          <ip>101.1.1.1</ip>
+          <wildcard>0.0.0.0</wildcard>
+          <area>0</area>
+        </network>
+      </process-id>
+    </value>
+  </edit>
+  <edit>
+    <edit-id>Add sub interface, set ospf mtu-ignore, assign IP Address</edit-id>
+    <operation>merge</operation>
+    <target>/interface/GigabitEthernet=1.101</target>
+    <value>
+      <GigabitEthernet xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <name>1.101</name>
+        <encapsulation>
+          <dot1Q>
+            <vlan-id>101</vlan-id>
+          </dot1Q>
+        </encapsulation>
+        <ip>
+          <router-ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+            <ospf>
+              <mtu-ignore>true</mtu-ignore>
+            </ospf>
+          </router-ospf>
+          <address>
+            <primary>
+              <address>101.1.1.1</address>
+              <mask>255.255.255.252</mask>
+            </primary>
+          </address>
+        </ip>
+      </GigabitEthernet>
+    </value>
+  </edit>
 </yang-patch>

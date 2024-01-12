@@ -26,7 +26,7 @@
             },
             {
                 "edit-id": "Create prefix list REAL_PL",
-                "operation": "create",
+                "operation": "merge",
                 "target": "/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,999",
                 "value": {
                     "Cisco-IOS-XE-native:prefixes": {
@@ -61,11 +61,11 @@
             {
                 "edit-id": "replace REAL_PL with new values",
                 "operation": "replace",
-                "target": "/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,10",
+                "target": "/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,999",
                 "value": {
                     "Cisco-IOS-XE-native:prefixes": {
-                        "name": "REAL_PL2",
-                        "no": "10",
+                        "name": "REAL_PL",
+                        "no": "999",
                         "action": "permit",
                         "ip": "1.1.1.1/32"
                     }

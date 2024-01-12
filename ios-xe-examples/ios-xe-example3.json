@@ -1,55 +1,55 @@
 {
-  "ietf-yang-patch:yang-patch": {
-      "patch-id": "Example 4, adding subintf, ospf pid, and network statement",
-      "comment": "A slightly more complex operation, 'merge' a subinterface, ospf pid, and enables ospf with a network statement",
-      "edit": [
-          {
-              "edit-id": "Create OSPF pid, add network statement",
-              "operation": "merge",
-              "target": "/router/router-ospf/ospf/process-id=1",
-              "value": {
-                  "Cisco-IOS-XE-ospf:process-id": [
-                      {
-                          "id": "1",
-                          "network": [
-                              {
-                                  "ip": "101.1.1.1",
-                                  "wildcard": "0.0.0.0",
-                                  "area": "0"
-                              }
-                          ]
-                      }
-                  ]
-              }
-          },
-          {
-              "edit-id": "Add sub interface, set ospf mtu-ignore, assign IP Address",
-              "operation": "merge",
-              "target": "/interface/GigabitEthernet=1.101",
-              "value": {
-                  "Cisco-IOS-XE-native:GigabitEthernet": {
-                      "name": "1.101",
-                      "encapsulation": {
-                          "dot1Q": {
-                              "vlan-id": "101"
-                          }
-                      },
-                      "ip": {
-                          "Cisco-IOS-XE-ospf:router-ospf": {
-                              "ospf": {
-                                  "mtu-ignore": true
-                              }
-                          },
-                          "address": {
-                              "primary": {
-                                  "address": "101.1.1.1",
-                                  "mask": "255.255.255.252"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      ]
-  }
+    "ietf-yang-patch:yang-patch": {
+        "patch-id": "Example 4, adding subintf, ospf pid, and network statement",
+        "comment": "A slightly more complex operation, 'merge' a subinterface, ospf pid, and enables ospf with a network statement",
+        "edit": [
+            {
+                "edit-id": "Create OSPF pid, add network statement",
+                "operation": "merge",
+                "target": "/router/router-ospf/ospf/process-id=1",
+                "value": {
+                    "Cisco-IOS-XE-ospf:process-id": [
+                        {
+                            "id": "1",
+                            "network": [
+                                {
+                                    "ip": "101.1.1.1",
+                                    "wildcard": "0.0.0.0",
+                                    "area": "0"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "edit-id": "Add sub interface, set ospf mtu-ignore, assign IP Address",
+                "operation": "merge",
+                "target": "/interface/GigabitEthernet=1.101",
+                "value": {
+                    "Cisco-IOS-XE-native:GigabitEthernet": {
+                        "name": "1.101",
+                        "encapsulation": {
+                            "dot1Q": {
+                                "vlan-id": "101"
+                            }
+                        },
+                        "ip": {
+                            "Cisco-IOS-XE-ospf:router-ospf": {
+                                "ospf": {
+                                    "mtu-ignore": true
+                                }
+                            },
+                            "address": {
+                                "primary": {
+                                    "address": "101.1.1.1",
+                                    "mask": "255.255.255.252"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
 }
