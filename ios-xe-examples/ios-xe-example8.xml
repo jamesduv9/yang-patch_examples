@@ -1,0 +1,74 @@
+<yang-patch xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-patch">
+    <patch-id>Example 8, Complex operation, 'create' bgp asn 65000, 'merge' a neighbor, 'create' a
+        prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values </patch-id>
+    <comment>Complex operation, 'create' bgp asn 65000, 'merge' a new neighbor, 'create' a prefix
+        list, 'merge' the PL on the neighbor, 'replace' the PL with new values</comment>
+    <edit>
+        <edit-id>Create BGP ASN 65000</edit-id>
+        <operation>create</operation>
+        <target>/router/bgp=65000</target>
+        <value>
+            <bgp xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-bgp">
+                <id>65000</id>
+            </bgp>
+        </value>
+    </edit>
+    <edit>
+        <edit-id>Merge neighbor 10.1.1.1</edit-id>
+        <operation>merge</operation>
+        <target>/router/bgp=65000/neighbor=10.1.1.1</target>
+        <value>
+            <neighbor xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-bgp">
+                <id>10.1.1.1</id>
+                <remote-as>65000</remote-as>
+            </neighbor>
+        </value>
+    </edit>
+    <edit>
+        <edit-id>Create prefix list REAL_PL</edit-id>
+        <operation>merge</operation>
+        <target>/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,999</target>
+        <value>
+            <prefixes xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                <name>REAL_PL</name>
+                <no>999</no>
+                <action>deny</action>
+                <ip>0.0.0.0/0</ip>
+                <le>32</le>
+            </prefixes>
+        </value>
+    </edit>
+    <edit>
+        <edit-id>merge PL for bgp neigh 10.1.1.1</edit-id>
+        <operation>merge</operation>
+        <target>/router/bgp=65000/address-family/no-vrf/ipv4=unicast</target>
+        <value>
+            <ipv4 xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-bgp">
+                <af-name>unicast</af-name>
+                <ipv4-unicast>
+                    <neighbor>
+                        <id>10.1.1.1</id>
+                        <activate/>
+                        <prefix-list>
+                            <inout>in</inout>
+                            <prefix-list-name>REAL_PL</prefix-list-name>
+                        </prefix-list>
+                    </neighbor>
+                </ipv4-unicast>
+            </ipv4>
+        </value>
+    </edit>
+    <edit>
+        <edit-id>replace REAL_PL with new values</edit-id>
+        <operation>replace</operation>
+        <target>/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,999</target>
+        <value>
+            <prefixes xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                <name>REAL_PL</name>
+                <no>999</no>
+                <action>permit</action>
+                <ip>1.1.1.1/32</ip>
+            </prefixes>
+        </value>
+    </edit>
+</yang-patch>
