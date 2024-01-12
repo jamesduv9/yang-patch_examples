@@ -1,0 +1,76 @@
+{
+    "ietf-yang-patch:yang-patch": {
+        "patch-id": "Example 7, Complex operation, 'create' bgp asn 65000, 'merge' a neighbor, 'create' a prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values",
+        "comment": "Complex operation, 'create' bgp asn 65000, 'merge' a new neighbor, 'create' a prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values",
+        "edit": [
+            {
+                "edit-id": "Create BGP ASN 65000",
+                "operation": "create",
+                "target": "/router/bgp=65000",
+                "value": {
+                    "Cisco-IOS-XE-bgp:bgp": {
+                        "id": "65000"
+                    }
+                }
+            },
+            {
+                "edit-id": "Merge neighbor 10.1.1.1",
+                "operation": "merge",
+                "target": "/router/bgp=65000/neighbor=10.1.1.1",
+                "value": {
+                    "Cisco-IOS-XE-bgp:neighbor": {
+                        "id": "10.1.1.1",
+                        "remote-as": "65000"
+                    }
+                }
+            },
+            {
+                "edit-id": "Create prefix list REAL_PL",
+                "operation": "create",
+                "target": "/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,999",
+                "value": {
+                    "Cisco-IOS-XE-native:prefixes": {
+                        "name": "REAL_PL",
+                        "no": "999",
+                        "action": "deny",
+                        "ip": "0.0.0.0/0",
+                        "le": "32"
+                    }
+                }
+            },
+            {
+                "edit-id": "merge PL for bgp neigh 10.1.1.1",
+                "operation": "merge",
+                "target": "/router/bgp=65000/address-family/no-vrf/ipv4=unicast",
+                "value": {
+                    "Cisco-IOS-XE-bgp:ipv4": {
+                        "af-name": "unicast",
+                        "ipv4-unicast": {
+                            "neighbor": {
+                                "id": "10.1.1.1",
+                                "activate": "",
+                                "prefix-list": {
+                                    "inout": "in",
+                                    "prefix-list-name": "REAL_PL"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "edit-id": "replace REAL_PL with new values",
+                "operation": "replace",
+                "target": "/ip/prefix-lists/Cisco-IOS-XE-native:prefixes=REAL_PL,10",
+                "value": {
+                    "Cisco-IOS-XE-native:prefixes": {
+                        "name": "REAL_PL2",
+                        "no": "10",
+                        "action": "permit",
+                        "ip": "1.1.1.1/32"
+                    }
+                }
+            }
+        ]
+    }
+}

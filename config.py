@@ -39,6 +39,11 @@ def get_examples(device_ip: str) -> tuple[dict]:
               "restconf_path": f"https://{device_ip}/restconf/data/Cisco-IOS-XE-native:native/ip/access-list",
               "example_description": "Example 6, Displaying the order of operations in yang-patch using a XML payload, executes from top to bottom, while also being atomic. 'create' two standard ACLs, then 'delete' the first."
               },
+        "7": {"file_": "./ios-xe-examples/ios-xe-example7.json",
+              "data_type": "json",
+              "restconf_path": f"https://{device_ip}/restconf/data/Cisco-IOS-XE-native:native",
+              "example_description": "Complex operation with JSON payload, 'create' bgp asn 65000, 'merge' a new neighbor, 'create' a prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values"
+              },
     }
     nxos_examples = {
     }
