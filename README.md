@@ -46,7 +46,7 @@ For example, if configuring an access-list, the following target would be consid
 
 ## Headers
 
-YANG-Patch supports two different values for headers, `application/yang-patch+json` or `application/yang-patch+xml`. One of these values must be used for both the `Content-type` and `Accept` headers. The Content-type header specifies the value of the data you are sending to the RESTCONF server, while the Accept header specifies the data your client expects to receieve back from the RESTCONF server.
+YANG-Patch supports two different values for headers, `application/yang-patch+json` or `application/yang-patch+xml`. One of these values must be used for both the `Content-type` and `Accept` headers. The Content-type header specifies the value of the data you are sending to the RESTCONF server, while the Accept header specifies the data your client expects to receieve back from the RESTCONF server. The CLI script only uses json for the accept header to make the responses predictable.
 
 **Caveat** - The ansible module - `anisble.netcommon.restconf_config` does not support the yang-patch headers or provide a way to change them when writing your tasks. If you plan to use yang-patch alongside ansible, I would recommend using the `ansible.builtin.uri` module instead.
 
