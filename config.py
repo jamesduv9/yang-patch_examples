@@ -50,7 +50,5 @@ def get_examples(device_ip: str) -> tuple[dict]:
               "example_description": "Complex operation with XML payload, 'create' bgp asn 65000, 'merge' a new neighbor, 'create' a prefix list, 'merge' the PL on the neighbor, 'replace' the PL with new values"
               },
     }
-    nxos_examples = {
-    }
 
-    return ios_xe_examples, nxos_examples
+    return ios_xe_examples

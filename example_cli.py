@@ -23,11 +23,12 @@ def send_patch(username: str, password: str, device_restconf_path: str, patch_pa
         data_type - json or xml, used for Content-type header
     """
 
-    headers = {"Accept": f"application/yang-patch+json",
+    headers = {"Accept": "application/yang-patch+json",
                "Content-type": f"application/yang-patch+{data_type}"}
     print(f"Sending our patch with headers : {headers}")
     print(f"To the following uri {device_restconf_path}")
-    data = open(patch_path).read()
+    with open(patch_path, "r") as file:
+        data = file.read()
     response = requests.patch(device_restconf_path, headers=headers, auth=(
         username, password), verify=False, data=data).text
 
@@ -60,7 +61,7 @@ def ios_xe(username: str, password: str, device_ip: str, example_number: str):
     """
     Sends commands to the iosxe device specified
     """
-    ios_xe_examples, _ = get_examples(device_ip)
+    ios_xe_examples = get_examples(device_ip)
     if not ios_xe_examples.get(example_number):
         print("Example number provided not found\n exiting")
         exit()
@@ -73,20 +74,17 @@ def ios_xe(username: str, password: str, device_ip: str, example_number: str):
 
 
 @main_menu.command(name="show-examples")
-@click.option("--os", type=click.Choice(["ios-xe", "nxos", "both"]), show_default=True, default="both", help="Filter which platform you want to see examples for")
-def show_examples(os: str):
+def show_examples():
     """
     Lists all the possible examples you can run with a brief description
     """
-    if os == "both" or os == "ios-xe":
-        ios_xe_examples, _ = get_examples("0.0.0.0")
-        print("IOS XE Examples available:")
-        for example_id, example_values in ios_xe_examples.items():
-            print(f"Example: {example_id}")
-            print(
-                f"Example Description: {example_values.get('example_description')}", "\n", "-" * 50)
-    elif os == "both" or os == "nxos":
-        ...
+    ios_xe_examples = get_examples("0.0.0.0")
+    print("IOS XE Examples available:")
+    for example_id, example_values in ios_xe_examples.items():
+        print(f"Example: {example_id}")
+        print(
+            f"Example Description: {example_values.get('example_description')}", "\n", "-" * 50)
+
 
 
 if __name__ == "__main__":

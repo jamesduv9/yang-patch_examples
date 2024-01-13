@@ -1,6 +1,6 @@
 # YANG-PATCH examples
 
-YANG patch is defined in RFC 8072 (https://datatracker.ietf.org/doc/html/rfc8072), although it's a powerful feature, finding any documentation or examples of this on modern systems proved very difficult. This repo will provide a handful of useful examples for iOS XE and NX-OS.
+YANG patch is defined in RFC 8072 (https://datatracker.ietf.org/doc/html/rfc8072), although it's a powerful feature, finding any documentation or examples of this on modern systems proved very difficult. This repo will provide a handful of useful examples for IOS-XE
 
 This was written during my studies for the Cisco DevNet Expert certification. While it's not on the blueprint, the topics here will help with understanding vanilla RESTCONF (RFC 8040), which is on the blueprint.
 
