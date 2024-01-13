@@ -46,7 +46,14 @@ I've added a simple CLI application `example_cli.py` that will let you run the I
 The CLI provides built-in help, to assist with running the examples.
 
 ```
-add snippet of CLI
+Usage: example_cli.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  ios-xe         Sends commands to the iosxe device specified
+  show-examples  Lists all the possible examples you can run with a brief...
 ```
 
 ## Benefits of YANG Patch over normal RESTCONF operations
