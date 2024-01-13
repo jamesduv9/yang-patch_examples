@@ -7,7 +7,7 @@ This was written during my studies for the Cisco DevNet Expert certification. Wh
 
 ## Using the example_cli.py CLI in this repo
 
-I've added a simple CLI application `example_cli.py` that will let you run the iOS-XE or NX-OS examples on your own devices. 
+I've added a simple CLI application `example_cli.py` that will let you run the IOS-XE or NX-OS examples on your own devices. 
 
 ### Prerequisites
 - Python 3.6 or higher
@@ -139,7 +139,7 @@ A couple of notes on each of these,
 3. **replace** - Completely replaces a data resource with your provided value, this is dangerous, can see this used in IaC deployment where you have your desired state completely defined.
 4. **delete** - Does what it says, deletes an object, of the 4 mentioned here, this is the only one that doesn't require a value.
 
-YANG Patch also includes the move and insert operations, however, I was unable to get either working on iOS-XE. I believe this is because iOS relies on values within the data resource to specify its order, and doesn't rely on the lists to be ordered. For example, prefix-list has a required key of "no" to specify which order the prefix-list is interpreted. Using move or insert to place a new prefix list line before or after a specific place in a prefix-list doesn't make sense.
+YANG Patch also includes the move and insert operations, however, I was unable to get either working on IOS-XE. I believe this is because IOS relies on values within the data resource to specify its order, and doesn't rely on the lists to be ordered. For example, prefix-list has a required key of "no" to specify which order the prefix-list is interpreted. Using move or insert to place a new prefix list line before or after a specific place in a prefix-list doesn't make sense.
 
 ## Ghost configs
 
